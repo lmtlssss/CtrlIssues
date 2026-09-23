@@ -1,0 +1,11 @@
+{
+  "description": "Keep the committed CtrlIssues task cursor available across native Codex lifecycle events.",
+  "hooks": {
+    "SessionStart": [{"matcher":"startup|resume|compact","hooks":[{"type":"command","command":"${PLUGIN_DATA}/ctrlissues hook","timeout":10,"additionalContextLimit":900}]}],
+    "SubagentStart": [{"matcher":"*","hooks":[{"type":"command","command":"${PLUGIN_DATA}/ctrlissues hook","timeout":10,"additionalContextLimit":900}]}],
+    "UserPromptSubmit": [{"matcher":"*","hooks":[{"type":"command","command":"${PLUGIN_DATA}/ctrlissues hook","timeout":10,"additionalContextLimit":900}]}],
+    "PreCompact": [{"matcher":"auto|manual","hooks":[{"type":"command","command":"${PLUGIN_DATA}/ctrlissues hook","timeout":10,"additionalContextLimit":200}]}],
+    "PreToolUse": [{"matcher":"*","hooks":[{"type":"command","command":"${PLUGIN_DATA}/ctrlissues hook","timeout":10}]}],
+    "PostToolUse": [{"matcher":"*","hooks":[{"type":"command","command":"${PLUGIN_DATA}/ctrlissues hook","timeout":10}]}]
+  }
+}

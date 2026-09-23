@@ -1,0 +1,82 @@
+name: CtrlIssues CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-proof:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python3 -m pip install --disable-pip-version-check pytest==8.4.2
+      - run: scripts/prove-system.sh
+      - run: python3 -m py_compile scripts/install.py scripts/package.py scripts/package-smoke.py scripts/validate-package.py plugins/ctrlissues/backend/main.py
+  package:
+    needs: source-proof
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-24.04
+            target: x86_64-unknown-linux-musl
+            label: linux-x86_64-musl
+          - os: macos-15
+            target: aarch64-apple-darwin
+            label: macos-arm64
+          - os: macos-15-intel
+            target: x86_64-apple-darwin
+            label: macos-x86_64
+          - os: windows-2025
+            target: x86_64-pc-windows-msvc
+            label: windows-x86_64
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y musl-tools
+          echo 'CARGO_TARGET_X86_64_UNKNOWN_LINUX_MUSL_LINKER=musl-gcc' >> "$GITHUB_ENV"
+      - run: cargo build --release --locked --target ${{ matrix.target }} --manifest-path plugins/ctrlissues/runtime/Cargo.toml
+      - name: Build, validate, install, launch, and roll back package
+        shell: bash
+        env:
+          TARGET: ${{ matrix.target }}
+          LABEL: ${{ matrix.label }}
+        run: |
+          ext=""
+          if [[ "$TARGET" == *windows* ]]; then ext=".exe"; fi
+          asset="ctrlissues-v0.1.0-${LABEL}.zip"
+          python scripts/package.py --source . --binary "plugins/ctrlissues/runtime/target/${TARGET}/release/ctrlissues${ext}" --target "$TARGET" --output "$asset"
+          python scripts/validate-package.py --package "$asset"
+          python - "$asset" <<'PY'
+          import hashlib
+          import pathlib
+          import sys
+          package = pathlib.Path(sys.argv[1])
+          checksum = hashlib.sha256(package.read_bytes()).hexdigest().encode() + b"  " + package.name.encode() + b"\n"
+          pathlib.Path(str(package) + ".sha256").write_bytes(checksum)
+          PY
+          python scripts/package-smoke.py --package "$asset" --checksum "$asset.sha256"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ctrlissues-v0.1.0-${{ matrix.label }}
+          path: |
+            ctrlissues-v0.1.0-${{ matrix.label }}.zip
+            ctrlissues-v0.1.0-${{ matrix.label }}.zip.sha256
+            install.sh
+          if-no-files-found: error

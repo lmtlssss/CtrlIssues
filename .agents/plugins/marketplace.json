@@ -1,0 +1,20 @@
+{
+  "name": "ctrlissues",
+  "interface": {
+    "displayName": "CtrlIssues"
+  },
+  "plugins": [
+    {
+      "name": "ctrlissues",
+      "source": {
+        "source": "local",
+        "path": "./plugins/ctrlissues"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

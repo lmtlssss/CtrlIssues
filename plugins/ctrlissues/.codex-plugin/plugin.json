@@ -1,0 +1,18 @@
+{
+  "name": "ctrlissues",
+  "version": "0.1.0",
+  "description": "for agents with executive dysfunction.",
+  "author": {
+    "name": "lmtlssss"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "CtrlIssues",
+    "shortDescription": "for agents with executive dysfunction.",
+    "longDescription": "CtrlIssues combines durable task continuity and bounded typed execution for Codex.",
+    "developerName": "lmtlssss",
+    "category": "Productivity",
+    "capabilities": [],
+    "defaultPrompt": "Help me keep this task moving with CtrlIssues."
+  }
+}
