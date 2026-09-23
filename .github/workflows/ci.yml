@@ -60,7 +60,7 @@ jobs:
         run: |
           ext=""
           if [[ "$TARGET" == *windows* ]]; then ext=".exe"; fi
-          asset="ctrlissues-v0.1.0-${LABEL}.zip"
+          asset="ctrlissues-v0.1.1-${LABEL}.zip"
           python scripts/package.py --source . --binary "plugins/ctrlissues/runtime/target/${TARGET}/release/ctrlissues${ext}" --target "$TARGET" --output "$asset"
           python scripts/validate-package.py --package "$asset"
           python - "$asset" <<'PY'
@@ -74,9 +74,9 @@ jobs:
           python scripts/package-smoke.py --package "$asset" --checksum "$asset.sha256"
       - uses: actions/upload-artifact@v4
         with:
-          name: ctrlissues-v0.1.0-${{ matrix.label }}
+          name: ctrlissues-v0.1.1-${{ matrix.label }}
           path: |
-            ctrlissues-v0.1.0-${{ matrix.label }}.zip
-            ctrlissues-v0.1.0-${{ matrix.label }}.zip.sha256
+            ctrlissues-v0.1.1-${{ matrix.label }}.zip
+            ctrlissues-v0.1.1-${{ matrix.label }}.zip.sha256
             install.sh
           if-no-files-found: error

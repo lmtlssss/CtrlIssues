@@ -32,7 +32,7 @@ def validate_tree(root: Path, require_binary=False):
     hooks = json.loads((root / "plugins/ctrlissues/hooks/hooks.json").read_text(encoding="utf-8"))
     skill = (root / "plugins/ctrlissues/skills/ctrlissues/SKILL.md").read_text(encoding="utf-8")
     entries = [p for p in market.get("plugins", []) if isinstance(p, dict) and p.get("name") == "ctrlissues"]
-    if manifest.get("name") != "ctrlissues" or manifest.get("version") != "0.1.0": raise ValueError("plugin_manifest")
+    if manifest.get("name") != "ctrlissues" or manifest.get("version") != "0.1.1": raise ValueError("plugin_manifest")
     if len(entries) != 1 or entries[0].get("source") != {"source": "local", "path": "./plugins/ctrlissues"}:
         raise ValueError("marketplace_entry")
     if not all(k in entries[0].get("policy", {}) for k in ("installation", "authentication")) or not entries[0].get("category"):
@@ -62,7 +62,7 @@ def validate_package(path: Path):
             names.add(name)
         if "ctrlissues-package.json" not in names: raise ValueError("package_metadata")
         metadata = json.loads(zf.read("ctrlissues-package.json"))
-        if metadata.get("format") != FORMAT or metadata.get("name") != "ctrlissues" or metadata.get("version") != "0.1.0":
+        if metadata.get("format") != FORMAT or metadata.get("name") != "ctrlissues" or metadata.get("version") != "0.1.1":
             raise ValueError("package_identity")
         if metadata.get("target") not in TARGETS: raise ValueError("package_target")
         files = metadata.get("files")
@@ -87,7 +87,7 @@ def main(argv=None):
     group.add_argument("--package", type=Path)
     args = parser.parse_args(argv)
     result = validate_tree(args.source) if args.source else validate_package(args.package)
-    print(json.dumps({"status": "valid", "name": "ctrlissues", "version": "0.1.0",
+    print(json.dumps({"status": "valid", "name": "ctrlissues", "version": "0.1.1",
                       "generation": result.get("generation")}, sort_keys=True))
 
 

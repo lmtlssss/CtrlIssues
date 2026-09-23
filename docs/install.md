@@ -1,6 +1,6 @@
 # Install CtrlIssues
 
-The v0.1.0 package contains the native core, Python backend, hooks, skill, and plugin manifest in one immutable versioned payload. It does not replace the Codex executable or add a model catalog. Python 3.11 or newer is needed for installation and the Python backend; Rust is needed only to build from source.
+The v0.1.1 package contains the native core, Python backend, hooks, skill, and plugin manifest in one immutable versioned payload. It does not replace the Codex executable or add a model catalog. Python 3.11 or newer is needed for installation and the Python backend; Rust is needed only to build from source.
 
 ## Build a package
 
@@ -34,7 +34,7 @@ data; it does not snapshot or restore the whole Codex profile.
 On Linux x86_64 and macOS arm64/x86_64, the release bootstrap selects the matching versioned package, downloads that package and its `.sha256` file once, checks the digest, and then runs the bundled installer. For example:
 
 ```sh
-curl -fsSL https://github.com/lmtlssss/CtrlIssues/releases/download/v0.1.0/install.sh | sh
+curl -fsSL https://github.com/lmtlssss/CtrlIssues/releases/download/v0.1.1/install.sh | sh
 ```
 
 Windows users can pass a built package to `python scripts/install.py --package FILE.zip`, or use `install.ps1` with a local checkout and `--binary FILE.exe`.

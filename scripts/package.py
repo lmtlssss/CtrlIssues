@@ -50,7 +50,7 @@ def collect(root: Path, binary: Path, target: str) -> dict[str, bytes]:
         if not path.is_file() or path.is_symlink(): raise ValueError("package_file_missing:" + name)
         files[name] = path.read_bytes()
     info = json.loads(files["plugins/ctrlissues/.codex-plugin/plugin.json"])
-    if info.get("name") != "ctrlissues" or info.get("version") != "0.1.0": raise ValueError("plugin_manifest_mismatch")
+    if info.get("name") != "ctrlissues" or info.get("version") != "0.1.1": raise ValueError("plugin_manifest_mismatch")
     if not binary.is_file() or binary.is_symlink(): raise ValueError("binary_missing_or_unsafe")
     suffix = ".exe" if target.endswith("windows-msvc") else ""
     binary_name = "plugins/ctrlissues/runtime/bin/ctrlissues" + suffix
@@ -63,7 +63,7 @@ def package(root: Path, binary: Path, target: str, output: Path) -> dict:
     files = collect(root, binary, target)
     hashes = {name: hashlib.sha256(body).hexdigest() for name, body in sorted(files.items())}
     generation = digest_inventory(files)
-    metadata = {"format": FORMAT, "name": "ctrlissues", "version": "0.1.0",
+    metadata = {"format": FORMAT, "name": "ctrlissues", "version": "0.1.1",
                 "target": target, "generation": generation, "files": hashes}
     output.parent.mkdir(parents=True, exist_ok=True)
     tmp = output.with_name("." + output.name + ".tmp")

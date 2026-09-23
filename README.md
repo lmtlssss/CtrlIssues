@@ -25,20 +25,20 @@ one browser profile  ──►  one CtrlIssues action owner
 
 ## install
 
-The v0.1.0 release installer selects a Linux x86_64 musl or macOS package and
+The v0.1.1 release installer selects a Linux x86_64 musl or macOS package and
 checks its SHA-256 file. Python 3.11 or newer is needed for installation and
 the Python backend. Rust is needed only when building from source.
 
 Run it with:
 
 ```sh
-curl -fsSL https://github.com/lmtlssss/CtrlIssues/releases/download/v0.1.0/install.sh | sh
+curl -fsSL https://github.com/lmtlssss/CtrlIssues/releases/download/v0.1.1/install.sh | sh
 ```
 
 Windows users can install a local package with Python 3.11 or newer:
 
 ```powershell
-python scripts/install.py --package ctrlissues-v0.1.0-windows-x86_64.zip
+python scripts/install.py --package ctrlissues-v0.1.1-windows-x86_64.zip
 ```
 
 For a source install, use Rust and Python 3.11 or newer:

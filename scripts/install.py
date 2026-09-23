@@ -44,7 +44,7 @@ def codex(binary, env, *args):
     return p.stdout
 
 def validate_contents(files: dict[str, bytes], meta: dict):
-    if meta.get("format") != "ctrlissues.package.v1" or meta.get("name") != NAME or meta.get("version") != "0.1.0": raise ValueError("package_identity")
+    if meta.get("format") != "ctrlissues.package.v1" or meta.get("name") != NAME or meta.get("version") != "0.1.1": raise ValueError("package_identity")
     if meta.get("target") not in TARGETS: raise ValueError("package_target")
     hashes = meta.get("files")
     if not isinstance(hashes, dict) or set(hashes) != set(files): raise ValueError("package_inventory")
@@ -69,7 +69,7 @@ def validate_contents(files: dict[str, bytes], meta: dict):
     hooks=json.loads(files["plugins/ctrlissues/hooks/hooks.json"])
     market=json.loads(files[".agents/plugins/marketplace.json"])
     skill=files["plugins/ctrlissues/skills/ctrlissues/SKILL.md"].decode("utf-8")
-    if manifest.get("name")!=NAME or manifest.get("version")!="0.1.0": raise ValueError("plugin_manifest")
+    if manifest.get("name")!=NAME or manifest.get("version")!="0.1.1": raise ValueError("plugin_manifest")
     matches=[x for x in market.get("plugins",[]) if isinstance(x,dict) and x.get("name")==NAME]
     if len(matches)!=1 or matches[0].get("source")!={"source":"local","path":"./plugins/ctrlissues"}: raise ValueError("marketplace_entry")
     if not all(k in matches[0].get("policy",{}) for k in ("installation","authentication")) or not matches[0].get("category"): raise ValueError("marketplace_policy")
@@ -141,7 +141,7 @@ def collect_source(source: Path, binary: Path):
     hashes={n:hashlib.sha256(b).hexdigest() for n,b in sorted(files.items())}
     generation=hashlib.sha256()
     for name, digest in sorted(hashes.items()): generation.update(name.encode()+b"\0"+bytes.fromhex(digest))
-    meta={"format":"ctrlissues.package.v1","name":NAME,"version":"0.1.0","target":target,"generation":generation.hexdigest(),"files":hashes}
+    meta={"format":"ctrlissues.package.v1","name":NAME,"version":"0.1.1","target":target,"generation":generation.hexdigest(),"files":hashes}
     validate_contents(files,meta)
     return files,meta
 
@@ -198,7 +198,7 @@ def rpc_hooks(binary, env, enable=True, cwd: Path|None=None):
                 if "error" in msg: raise RuntimeError("app_server_rejected:"+method)
                 return msg.get("result",{})
     try:
-        call("initialize",{"clientInfo":{"name":NAME,"version":"0.1.0"},"capabilities":{"experimentalApi":True}})
+        call("initialize",{"clientInfo":{"name":NAME,"version":"0.1.1"},"capabilities":{"experimentalApi":True}})
         p.stdin.write(json.dumps({"method":"initialized","params":{}})+"\n"); p.stdin.flush()
         result=call("hooks/list",{"cwds":[str((cwd or Path.cwd()).resolve())]})
         hooks=[h for group in result.get("data",[]) for h in group.get("hooks",[]) if h.get("pluginId")==PLUGIN_ID]
