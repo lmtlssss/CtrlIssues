@@ -12,7 +12,7 @@ import zipfile
 
 FORMAT = "ctrlissues.package.v1"
 MAX_FILE = 64 * 1024 * 1024
-EXTRA_FILES = ("install.sh", "install.ps1", "scripts/install.py", "scripts/package.py",
+EXTRA_FILES = ("LICENSE", "NOTICE.md", "README.md", "install.sh", "install.ps1", "scripts/install.py", "scripts/package.py",
                "scripts/validate-package.py", "scripts/prove-system.sh", "scripts/prove-system.ps1", "docs/install.md")
 
 

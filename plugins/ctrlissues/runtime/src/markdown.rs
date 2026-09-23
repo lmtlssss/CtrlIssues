@@ -27,11 +27,11 @@ pub fn publish(
         return Ok(path);
     }
     let tmp = plans.join(format!(".{name}.{}.{}.tmp", std::process::id(), now()));
-    let mut file = OpenOptions::new()
-        .write(true)
-        .create_new(true)
-        .mode(0o600)
-        .open(&tmp)?;
+    let mut options = OpenOptions::new();
+    options.write(true).create_new(true);
+    #[cfg(unix)]
+    options.mode(0o600);
+    let mut file = options.open(&tmp)?;
     set_mode(&tmp, 0o600)?;
     file.write_all(body.as_bytes())?;
     file.sync_all()?;

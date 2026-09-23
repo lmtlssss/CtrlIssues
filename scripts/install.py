@@ -10,7 +10,7 @@ NAME = "ctrlissues"
 PLUGIN_ID = "ctrlissues@ctrlissues"
 DATA_NAME = "ctrlissues-ctrlissues"
 MAX_PACKAGE = 96 * 1024 * 1024
-EXTRA_FILES = ("install.sh", "install.ps1", "scripts/install.py", "scripts/package.py",
+EXTRA_FILES = ("LICENSE", "NOTICE.md", "README.md", "install.sh", "install.ps1", "scripts/install.py", "scripts/package.py",
                "scripts/validate-package.py", "scripts/prove-system.sh", "scripts/prove-system.ps1", "docs/install.md")
 EXPECTED_HOOKS = {"SessionStart", "SubagentStart", "UserPromptSubmit", "PreCompact", "PreToolUse", "PostToolUse"}
 TARGETS = {"x86_64-unknown-linux-musl", "aarch64-apple-darwin", "x86_64-apple-darwin", "x86_64-pc-windows-msvc", "local", "windows-msvc-local"}
