@@ -139,11 +139,6 @@ pub fn run(data: &Path) -> Result<(), Box<dyn std::error::Error>> {
             "{}",
             json!({"hookSpecificOutput":{"hookEventName":event,"additionalContext":cut(&context,900)}})
         );
-    } else if event == "PreCompact" && useful {
-        println!(
-            "{}",
-            json!({"hookSpecificOutput":{"hookEventName":"PreCompact","additionalContext":"CtrlIssues saved the bounded task cursor; continue with native compaction."}})
-        );
     }
     Ok(())
 }
