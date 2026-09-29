@@ -139,6 +139,16 @@ pub fn run(data: &Path) -> Result<(), Box<dyn std::error::Error>> {
             "{}",
             json!({"hookSpecificOutput":{"hookEventName":event,"additionalContext":cut(&context,900)}})
         );
+    } else if matches!(event, "SessionStart" | "UserPromptSubmit" | "SubagentStart") {
+        let session = compact["session_id"].as_str().unwrap_or("");
+        let context = format!(
+            "CtrlIssues is active. Native task command: ctrlissues --session {} status --compact. For substantial work, read the ctrlissues skill and use its durable task cursor; resume that cursor after handoffs. Small direct tasks need no plan.",
+            shell_quote(session)
+        );
+        println!(
+            "{}",
+            json!({"hookSpecificOutput":{"hookEventName":event,"additionalContext":cut(&context,450)}})
+        );
     }
     Ok(())
 }
