@@ -1,0 +1,18 @@
+{
+  "schema": "ctrlissues.helper-policy.v1",
+  "primary": {
+    "model": "gpt-6-astra",
+    "reasoning_effort": "xhigh"
+  },
+  "default_helper": {
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "low"
+  },
+  "literal_helper": {
+    "model": "gpt-6-luna",
+    "reasoning_effort": "low",
+    "scope": "Extremely narrow literal extraction or edits with exact sources and a fixed completion condition."
+  },
+  "higher_effort": "Preserve explicit higher-effort state, concurrency, protocol, and hard-question cuts. Primary chooses the bounded helper or performs the cut.",
+  "authority": "Advisory delegation policy. Native Codex owns model selection, context, and permissions. No hook changes models."
+}

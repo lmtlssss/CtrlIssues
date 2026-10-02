@@ -1,6 +1,6 @@
 #!/bin/sh
 set -eu
-VERSION=0.1.1
+VERSION=0.1.2
 ROOT=
 if [ -f "$0" ]; then
   CANDIDATE=$(CDPATH= cd -- "$(dirname -- "$0")" 2>/dev/null && pwd || true)
