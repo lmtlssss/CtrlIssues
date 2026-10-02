@@ -25,20 +25,20 @@ one browser profile  ──►  one CtrlIssues action owner
 
 ## install
 
-The v0.1.1 release installer selects a Linux x86_64 musl or macOS package and
+The v0.1.2 release installer selects a Linux x86_64 musl or macOS package and
 checks its SHA-256 file. Python 3.11 or newer is needed for installation and
 the Python backend. Rust is needed only when building from source.
 
 Run it with:
 
 ```sh
-curl -fsSL https://github.com/lmtlssss/CtrlIssues/releases/download/v0.1.1/install.sh | sh
+curl -fsSL https://github.com/lmtlssss/CtrlIssues/releases/download/v0.1.2/install.sh | sh
 ```
 
 Windows users can install a local package with Python 3.11 or newer:
 
 ```powershell
-python scripts/install.py --package ctrlissues-v0.1.1-windows-x86_64.zip
+python scripts/install.py --package ctrlissues-v0.1.2-windows-x86_64.zip
 ```
 
 For a source install, use Rust and Python 3.11 or newer:
@@ -56,7 +56,13 @@ and to trust CtrlIssues hooks. Details and isolated install options are in
 ## use
 
 Use Codex with Astra xhigh as the configured primary. Start with the person's
-goal. Substantial work gets an ordered plan; the agent finishes the current
+goal. Prefer `gpt-6.1-sol` at low effort for delegated work. Reserve
+`gpt-6-luna` at low effort for extremely narrow literal extraction or edits.
+Preserve explicit higher-effort state, concurrency, protocol, and hard-question
+cuts. The [helper policy](plugins/ctrlissues/helper-policy.json) records this
+choice; native Codex applies it, and hooks never switch models.
+
+Substantial work gets an ordered plan; the agent finishes the current
 layer and accepts a result only with a current receipt. Short direct tasks need
 no blueprint. Later steers revise the same task and retain valid completed work.
 

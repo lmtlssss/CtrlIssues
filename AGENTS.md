@@ -8,7 +8,10 @@ task cursor and record the next unresolved action.
 
 Astra xhigh remains the primary reasoner in the target profile. it reads the
 sources, decides scope, assigns bounded work, observes results, and accepts
-proof. use a helper only when the task benefits from one. give a worker the
+proof. prefer gpt-6.1-sol at low effort for delegated work. reserve gpt-6-luna
+at low effort for extremely narrow literal extraction or edits. preserve an
+explicit higher-effort state, concurrency, protocol, or hard-question cut.
+use a helper only when the task benefits from one. give a worker the
 exact target, source, allowed files, completion check, and recovery boundary.
 the worker returns a diff, command results, and artifact paths. no model score
 or worker report completes a task by itself. keep RecentlyDivorced separate.
